@@ -331,12 +331,14 @@ void BondTest::testZspread() {
 
               for (Size m=0; m<LENGTH(spreads); m++) {
 
+                // Clean price
                 Real price = BondFunctions::cleanPrice(bond, *discountCurve,
                                                    spreads[m],
                                                    bondDayCount,
                                                    compounding[n],
                                                    frequencies[l]);
                 Spread calculated = BondFunctions::zSpread(bond, price,
+                                                           Bond::Price::Clean,
                                                            *discountCurve,
                                                            bondDayCount,
                                                            compounding[n],
@@ -354,18 +356,58 @@ void BondTest::testZspread() {
                                                       frequencies[l]);
                   if (std::fabs(price-price2)/price > tolerance) {
                       BOOST_ERROR("\nZ-spread recalculation failed:"
-                          "\n    issue:     " << issue <<
-                          "\n    maturity:  " << maturity <<
-                          "\n    coupon:    " << io::rate(coupons[k]) <<
-                          "\n    frequency: " << frequencies[l] <<
-                          "\n    Z-spread:  " << io::rate(spreads[m]) <<
+                          "\n    issue:        " << issue <<
+                          "\n    maturity:     " << maturity <<
+                          "\n    coupon:       " << io::rate(coupons[k]) <<
+                          "\n    frequency:    " << frequencies[l] <<
+                          "\n    Z-spread:     " << io::rate(spreads[m]) <<
                           (compounding[n] == Compounded ?
                                 " compounded" : " continuous") <<
                           std::setprecision(7) <<
-                          "\n    price:     " << price <<
-                          "\n    Z-spread': " << io::rate(calculated) <<
-                          "\n    price':    " << price2);
+                          "\n    clean price:  " << price <<
+                          "\n    Z-spread':    " << io::rate(calculated) <<
+                          "\n    clean price': " << price2);
                   }
+                }
+
+                // Dirty price
+                price = BondFunctions::dirtyPrice(bond, *discountCurve,
+                                                  spreads[m],
+                                                  bondDayCount,
+                                                  compounding[n],
+                                                  frequencies[l]);
+                
+                calculated = BondFunctions::zSpread(bond, price,
+                                                    Bond::Price::Dirty,
+                                                    *discountCurve,
+                                                    bondDayCount,
+                                                    compounding[n],
+                                                    frequencies[l],
+                                                    Date(),
+                                                    tolerance,
+                                                    maxEvaluations);
+
+                if (std::fabs(spreads[m] - calculated) > tolerance) {
+                    // the difference might not matter
+                    Real price2 = BondFunctions::dirtyPrice(bond, *discountCurve,
+                                                            calculated,
+                                                            bondDayCount,
+                                                            compounding[n],
+                                                            frequencies[l]);
+                    if (std::fabs(price - price2) / price > tolerance) {
+                        BOOST_ERROR("\nZ-spread recalculation failed:"
+                            "\n    issue:        " << issue <<
+                            "\n    maturity:     " << maturity <<
+                            "\n    coupon:       " << io::rate(coupons[k]) <<
+                            "\n    frequency:    " << frequencies[l] <<
+                            "\n    Z-spread:     " << io::rate(spreads[m]) <<
+                            (compounding[n] == Compounded ?
+                                " compounded" : " continuous") <<
+                            std::setprecision(7) <<
+                            "\n    dirty price:  " << price <<
+                            "\n    Z-spread':    " << io::rate(calculated) <<
+                            "\n    dirty price': " << price2);
+                    }
                 }
               }
             }
