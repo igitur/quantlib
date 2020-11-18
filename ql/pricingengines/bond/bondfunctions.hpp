@@ -118,7 +118,7 @@ namespace QuantLib {
                             const YieldTermStructure& discountCurve,
                             Date settlementDate = Date(),
                             Real price = Null<Real>(),
-                            const Bond::Price::Type priceType = Bond::Price::Clean);
+                            Bond::Price::Type priceType = Bond::Price::Clean);
         //@}
 
         //! \name Yield (a.k.a. Internal Rate of Return, i.e. IRR) functions
@@ -261,7 +261,7 @@ namespace QuantLib {
 
         static Spread zSpread(const Bond& bond,
                               Real price,
-                              const Bond::Price::Type priceType,
+                              Bond::Price::Type priceType,
                               const ext::shared_ptr<YieldTermStructure>&,
                               const DayCounter& dayCounter,
                               Compounding compounding,
