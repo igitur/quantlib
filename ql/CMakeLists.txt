@@ -1277,6 +1277,7 @@ set(QL_HEADERS
     indexes/ibor/trlibor.hpp
     indexes/ibor/usdlibor.hpp
     indexes/ibor/wibor.hpp
+    indexes/ibor/zaronia.hpp
     indexes/ibor/zibor.hpp
     indexes/iborindex.hpp
     indexes/indexmanager.hpp

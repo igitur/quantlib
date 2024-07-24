@@ -40,6 +40,7 @@ this_include_HEADERS = \
     trlibor.hpp \
     usdlibor.hpp \
     wibor.hpp \
+    zaronia.hpp \
     zibor.hpp
 
 cpp_files = \

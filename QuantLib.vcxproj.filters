@@ -714,6 +714,9 @@
     <ClInclude Include="ql\indexes\ibor\wibor.hpp">
       <Filter>indexes\ibor</Filter>
     </ClInclude>
+    <ClInclude Include="ql\indexes\ibor\zaronia.hpp">
+      <Filter>indexes\ibor</Filter>
+    </ClInclude>
     <ClInclude Include="ql\indexes\ibor\zibor.hpp">
       <Filter>indexes\ibor</Filter>
     </ClInclude>
@@ -7203,5 +7206,6 @@
     <ClCompile Include="ql\time\daycounters\yearfractiontodate.cpp">
       <Filter>time\daycounters</Filter>
     </ClCompile>
+    <ClCompile Include="ql\indexes\ibor\zaronia.cpp" />
   </ItemGroup>
 </Project>
